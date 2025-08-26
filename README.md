@@ -1,109 +1,109 @@
-# 📈 Ridge Regression on 2D Data (with Custom Implementation)
+Ridge Regression on 2D Data
 
-This project demonstrates how **Ridge Regression** works on a simple 2D dataset, using both **scikit-learn’s Ridge** and a **custom-built Ridge class**.  
-The goal is to understand how the regularization parameter **alpha** affects coefficients, intercept, and overfitting.
+This project demonstrates the concept of Ridge Regression (also known as L2 Regularization) on a simple 2D dataset. The implementation includes both Scikit-learn’s Ridge Regression and a custom Ridge Regression class built from scratch to understand the math and logic behind it.
 
----
+📌 Project Workflow
 
-## 🛠️ Libraries Used
-- **numpy**  
-- **matplotlib**  
-- **scikit-learn**  
-  - datasets (make_regression)  
-  - model_selection (train_test_split)  
-  - linear_model (LinearRegression, Ridge)  
+Dataset Creation
 
----
-
-## 📂 Dataset
-We generated synthetic regression data using scikit-learn:  
-
-```python
-from sklearn.datasets import make_regression
+Used sklearn.datasets.make_regression to generate a synthetic dataset:
 
 X, y = make_regression(
-    n_samples=100,
-    n_features=1,
-    n_informative=1,
-    n_targets=1,
-    noise=20,
+    n_samples=100, 
+    n_features=1, 
+    n_informative=1, 
+    n_targets=1, 
+    noise=20, 
     random_state=13
 )
-This created a 2D dataset with noise.
 
-The data was plotted to check the linear relationship.
 
-🔎 Project Steps
-Train/Test Split on the dataset.
+Plotted the data to visualize the linear relationship.
 
-Linear Regression:
+Train-Test Split
 
-Coefficient: 28.12
+Split dataset using train_test_split from sklearn.model_selection.
 
-Intercept: -2.27
+Linear Regression (Baseline)
 
-R² Score: 0.6345
+Applied LinearRegression to train the model.
 
-Ridge Regression (alpha = 0):
+Coefficient ≈ 28.12, Intercept ≈ -2.27
 
-Coefficient & intercept same as Linear Regression.
+R² Score = 0.6345
 
-R² Score: 0.6345
+Ridge Regression with Scikit-learn
 
-✅ This proves Ridge with alpha = 0 = Linear Regression.
+Imported Ridge from sklearn.linear_model.
 
-Ridge Regression (alpha = 10):
+Trained with:
 
-Coefficient: 24.83
+alpha = 0 → Same as Linear Regression (Coefficient & Intercept unchanged, R² unchanged).
 
-Intercept: -2.21
+alpha = 10 → Coefficient decreased to ≈ 24.83, Intercept ≈ -2.21, R² improved slightly (0.6387).
 
-R² Score: 0.6387 (slight improvement, less overfitting).
+alpha = 100 → Model underfits (coefficients shrink heavily).
 
-Ridge Regression (alpha = 100):
+Plotted all three regression lines to show the effect of increasing alpha.
 
-The line clearly underfits due to high regularization.
+Custom Ridge Regression Class (MyRidge)
 
-Visualization:
+Implemented Ridge Regression manually.
 
-Plotted all three regression lines → showed how alpha controls overfitting/underfitting.
+Constructor Parameters:
 
-🧑‍💻 Custom Ridge Class
-We created a custom Ridge class named MyRidge to replicate Ridge Regression manually.
+alpha (default = 0.1)
 
-Implementation details:
-Constructor: accepts alpha (default = 0.1).
+Fit Function Steps:
 
-Parameters: slope m, intercept b, and regularization alpha.
+Calculate numerator & denominator similar to OLS, but add alpha to denominator.
 
-In fit(X, y):
+Formula ensures regularization impact.
 
-Calculates numerator and denominator.
+Compute slope (m) and intercept (b):
 
-Adds alpha to denominator (regularization term).
+m = numerator / (denominator + alpha)
+b = y.mean() - (m * x.mean())
 
-Formula is the same as OLS but adjusted with alpha.
 
-Slope m is calculated using the modified denominator.
+Verified results by running with alpha = 10 → Same as Scikit-learn’s Ridge Regression output.
 
-Intercept b = y.mean - (m * x.mean).
+🧑‍💻 Technologies Used
 
-Results:
-With alpha = 10, results matched scikit-learn’s Ridge.
+Python
 
-Coefficient, intercept, and R² were the same ✅.
+NumPy
 
-📊 Results Comparison
-Model	Coefficient	Intercept	R² Score
-Linear Regression	28.12	-2.27	0.6345
-Ridge (alpha = 0)	28.12	-2.27	0.6345
-Ridge (alpha = 10)	24.83	-2.21	0.6387
-Ridge (alpha = 100)	~smaller	~-2.2	↓ Underfit
+Matplotlib
 
-🎯 Conclusion
-Ridge Regression works like Linear Regression when alpha = 0.
+Scikit-learn
 
-Increasing alpha reduces overfitting but too large alpha causes underfitting.
+📊 Key Results
 
-Our custom Ridge class gave the same results as scikit-learn’s Ridge ✅.
+Without Regularization (alpha=0): Ridge = Linear Regression.
 
+With alpha=10: Slight improvement in R², reduced overfitting.
+
+With alpha=100: Underfitting observed.
+
+Custom Implementation: Matches Scikit-learn’s Ridge output.
+
+📌 Takeaways
+
+Ridge Regression works by adding a penalty term (alpha) to the denominator in the coefficient formula.
+
+Increasing alpha reduces variance (overfitting) but too high alpha leads to underfitting.
+
+Custom implementation deepens understanding of how regularization mathematically affects the model.
+
+📷 Visualizations
+
+Scatter plot of dataset.
+
+Regression lines for:
+
+Linear Regression (baseline)
+
+Ridge Regression (alpha=10)
+
+Ridge Regression (alpha=100)
